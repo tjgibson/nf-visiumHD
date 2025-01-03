@@ -69,7 +69,7 @@ sdata <- FindClusters(sdata, resolution = cluster_res)
 # compute UMAP embedding =======================================================
 sdata <- RunUMAP(sdata, dims = cluster_ndims, return.model = T)
 sketch_clusters_plot <- DimPlot(sdata, label = T, label.size = 3, reduction = "umap") + NoLegend()
-
+sketch_spatial_plot <- SpatialDimPlot(sdata, group.by = "seurat_clusters") + NoLegend()
 # project clustering onto full dataset =========================================
 sdata <- ProjectData(
   object = sdata,
@@ -84,11 +84,13 @@ sdata <- ProjectData(
 # now that we have projected the full dataset, switch back to analyzing all cells
 DefaultAssay(sdata) <- assay_name
 full_clusters_plot <- DimPlot(sdata, label = T, label.size = 3, reduction = "full.umap", group.by = "cluster_full", alpha = 0.1) + NoLegend()
+full_spatial_plot <- SpatialDimPlot(sdata, group.by = "cluster_full") + NoLegend()
 
 # generate plots with umap embedding ===========================================
 plot_filename <- paste0(sample_name,"_",bin_size, "um_clusters_UMAP.pdf")
 pdf(plot_filename, useDingbats = FALSE, width = 11)
-sketch_clusters_plot + full_clusters_plot
+(sketch_clusters_plot | full_clusters_plot) /
+  (sketch_spatial_plot | full_spatial_plot)
 dev.off()
 
 # write clusters to file =======================================================

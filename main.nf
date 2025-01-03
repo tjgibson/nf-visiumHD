@@ -78,6 +78,7 @@ process spaceranger_count {
  
 process cluster_bins {
 	tag "$meta.sample"
+	label "process_medium"
 	publishDir "${params.results_dir}/clusters/${bin_size}_um_square_bins", mode: 'copy'
  	container = "tjmgison/seurat_v5:latest"
  	
@@ -110,7 +111,30 @@ process cluster_bins {
   /*
  * create base spatialdata object
  */
- 
+//  process create_sdata {
+// 	tag "$meta.sample"
+// 	publishDir "${params.results_dir}/spatialdata_objects/", mode: 'copy'
+//  	container = "tjmgison/seurat_v5:latest"
+//  	
+//  	input:
+//  	tuple val(meta), path("outs"), path("*.clusters.csv.gz")
+//  	
+//  	output:
+// 	tuple val(meta), path("${meta.sample}_${bin_size}um_clusters.csv.gz"), emit: clusters
+//  	path("${meta.sample}_${bin_size}um_clusters_UMAP.pdf"), emit: UMAP
+//  	
+//  	script:
+//  	"""
+//  	./cluster_square_bins.R $bin_size $n_sketch_cells $cluster_res $cluster_npcs $meta.sample
+//  	"""
+//  	
+//  	stub:
+//  	"""
+//  	touch "${meta.sample}_${bin_size}um_clusters.csv.gz"
+//  	touch "${meta.sample}_${bin_size}um_clusters_UMAP.pdf"
+//  	"""
+// }
+//  
   /*
  * Add additional information to spatialdata object:
  * segmentation masks and cell-based counts
@@ -171,7 +195,6 @@ workflow {
 	spatialdata_input = spaceranger_ch
 	.mix(cluster_ch)
 	| groupTuple
-	| view
 
 }
  
