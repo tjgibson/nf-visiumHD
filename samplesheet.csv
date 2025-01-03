@@ -1,0 +1,4 @@
+sample,slide_serial,slide_area,fastq,cytaimage,image,alignment_file
+B3197_28,H1-GHRPPYH,D1,data/fastq/B3197_28/*.fastq.gz,data/images/CAVG10254_2024-08-20_18-48-58_Santoro_08192024_H1-GHRPPYH_D1_B3197_28_D1.tif,data/images/B3197_28.tif,data/image-registration.json
+test,H1-GHRPPYH,D1,data/fastq/B3197_28/*.fastq.gz,data/images/CAVG10254_2024-08-20_18-48-58_Santoro_08192024_H1-GHRPPYH_D1_B3197_28_D1.tif,data/images/B3197_28.tif,assets/NO_FILE
+
