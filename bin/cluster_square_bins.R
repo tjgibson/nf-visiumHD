@@ -79,12 +79,12 @@ sdata <- ProjectData(
   sketched.reduction = "pca",
   umap.model = "umap",
   dims = cluster_ndims,
-  refdata = list(cluster_full = "seurat_clusters")
+  refdata = list(clusters_full = "seurat_clusters")
 )
 # now that we have projected the full dataset, switch back to analyzing all cells
 DefaultAssay(sdata) <- assay_name
-full_clusters_plot <- DimPlot(sdata, label = T, label.size = 3, reduction = "full.umap", group.by = "cluster_full", alpha = 0.1) + NoLegend()
-full_spatial_plot <- SpatialDimPlot(sdata, group.by = "cluster_full") + NoLegend()
+full_clusters_plot <- DimPlot(sdata, label = T, label.size = 3, reduction = "full.umap", group.by = "clusters_full", alpha = 0.1) + NoLegend()
+full_spatial_plot <- SpatialDimPlot(sdata, group.by = "clusters_full") + NoLegend()
 
 # generate plots with umap embedding ===========================================
 plot_filename <- paste0(sample_name,"_",bin_size, "um_clusters_UMAP.pdf")
@@ -100,7 +100,7 @@ clusters <- sdata@meta.data |>
   rownames_to_column("spot_id") |> 
   as_tibble() |> 
   mutate(spot_id = str_replace(spot_id, "s_", "")) |> 
-  select(spot_id, cluster_full)
+  select(spot_id, clusters_full)
 
 out_fn <-  paste0(sample_name,"_",bin_size,"um_clusters.csv.gz")
 write_csv(clusters, out_fn)

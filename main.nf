@@ -35,7 +35,7 @@ process spaceranger_count {
     path(probeset)	
     
 	output:
-	tuple val(meta), path("outs")
+	tuple val(meta), path("outs"), path(image)
 	
 	script:
 	def alignment_param = alignment_file.baseName != 'NO_FILE' ? "--loupe-alignment=${alignment_file}" : ''
@@ -57,6 +57,9 @@ process spaceranger_count {
         --localmem=${task.memory.toGiga()}
         
 	mv ${meta.sample}/outs outs
+	mv outs/feature_slice.h5 outs/${meta.sample}_feature_slice.h5
+	mv outs/web_summary.html outs/${meta.sample}_web_summary.html
+	mv outs/008um.cloupe outs/${meta.sample}_008um.cloupe
 	"""
     
     stub:
@@ -83,7 +86,7 @@ process cluster_bins {
  	container = "tjmgison/seurat_v5:latest"
  	
  	input:
- 	tuple val(meta), path("outs"), val(bin_size)
+ 	tuple val(meta), path("outs"), path(image), val(bin_size)
  	val(n_sketch_cells)
  	val(cluster_res)
  	val(cluster_npcs)
@@ -111,30 +114,30 @@ process cluster_bins {
   /*
  * create base spatialdata object
  */
-//  process create_sdata {
-// 	tag "$meta.sample"
-// 	publishDir "${params.results_dir}/spatialdata_objects/", mode: 'copy'
-//  	container = "tjmgison/seurat_v5:latest"
-//  	
-//  	input:
-//  	tuple val(meta), path("outs"), path("*.clusters.csv.gz")
-//  	
-//  	output:
-// 	tuple val(meta), path("${meta.sample}_${bin_size}um_clusters.csv.gz"), emit: clusters
-//  	path("${meta.sample}_${bin_size}um_clusters_UMAP.pdf"), emit: UMAP
-//  	
-//  	script:
-//  	"""
-//  	./cluster_square_bins.R $bin_size $n_sketch_cells $cluster_res $cluster_npcs $meta.sample
-//  	"""
-//  	
-//  	stub:
-//  	"""
-//  	touch "${meta.sample}_${bin_size}um_clusters.csv.gz"
-//  	touch "${meta.sample}_${bin_size}um_clusters_UMAP.pdf"
-//  	"""
-// }
-//  
+ process create_sdata {
+	tag "$meta.sample"
+	publishDir "${params.results_dir}/spatialdata_objects/", mode: 'copy'
+ 	container = "erikfas/spatialvi"
+ 	
+ 	input:
+ 	tuple val(meta), path("outs"), path(image), path("*")
+ 	val(bin_sizes)
+ 	
+ 	output:
+	tuple val(meta), path("${meta.sample}.zarr")
+ 	
+ 	script:
+ 	def bin_sizes_str = bin_sizes.join(',')
+ 	"""
+ 	create_spatialdata.py outs/ ${image} ${meta.sample} $bin_sizes_str
+ 	"""
+ 	
+ 	stub:
+ 	"""
+	touch ${meta.sample}.zarr
+ 	"""
+}
+ 
   /*
  * Add additional information to spatialdata object:
  * segmentation masks and cell-based counts
@@ -191,10 +194,20 @@ workflow {
 	)
 	.clusters
 	| groupTuple
+// 	| view
 	
 	spatialdata_input = spaceranger_ch
-	.mix(cluster_ch)
-	| groupTuple
+	.join(cluster_ch)
+	| view
+	
+	
+	sdata_ch = create_sdata(
+	spatialdata_input,
+	params.bin_sizes
+	)
+	| view
 
+	
+	
 }
  
