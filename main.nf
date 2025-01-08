@@ -116,6 +116,7 @@ process cluster_bins {
  */
  process create_sdata {
 	tag "$meta.sample"
+	label "process_low" 
 	publishDir "${params.results_dir}/spatialdata_objects/", mode: 'copy'
  	container = "erikfas/spatialvi"
  	
