@@ -30,7 +30,7 @@ process spaceranger_count {
 	container = "cumulusprod/spaceranger:3.1.2"
 	
 	input:
-	tuple val(meta), path(fastq), path(image), path(cytaimage), path(alignment_file)
+	tuple val(meta), path(fastq), path(cytaimage), path(image), path(alignment_file)
     path(reference)
     path(probeset)	
     
