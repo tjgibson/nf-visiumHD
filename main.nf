@@ -51,7 +51,6 @@ process spaceranger_count {
         --area=${meta.slide_area} \
         --create-bam=false \
         $alignment_param \
-        --nosecondary \
         --custom-bin-size=4 \
         --localcores=${task.cpus} \
         --localmem=${task.memory.toGiga()}
