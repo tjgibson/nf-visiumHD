@@ -58,7 +58,7 @@ process spaceranger_count {
 	mv ${meta.sample}/outs outs
 	mv outs/feature_slice.h5 outs/${meta.sample}_feature_slice.h5
 	mv outs/web_summary.html outs/${meta.sample}_web_summary.html
-	mv outs/008um.cloupe outs/${meta.sample}_008um.cloupe
+	mv outs/cloupe_008um.cloupe outs/${meta.sample}_008um.cloupe
 	"""
     
     stub:
