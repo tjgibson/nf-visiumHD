@@ -96,7 +96,7 @@ process cluster_bins {
  	
  	script:
  	"""
- 	./cluster_square_bins.R $bin_size $n_sketch_cells $cluster_res $cluster_npcs $meta.sample
+ 	cluster_square_bins.R $bin_size $n_sketch_cells $cluster_res $cluster_npcs $meta.sample
  	"""
  	
  	stub:
