@@ -1,4 +1,4 @@
-#!/usr/bin/env Rscript --vanilla
+#!/usr/local/bin/Rscript --vanilla
 
 # Setup ========================================================================
 suppressPackageStartupMessages({
