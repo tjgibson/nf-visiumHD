@@ -26,6 +26,7 @@ log.info """
 process spaceranger_count {
  	tag "$meta.sample"
  	label "process_high"
+ 	label "process_long"
 	publishDir "${params.results_dir}/spaceranger/${meta.sample}", mode: 'copy'
 	container = "cumulusprod/spaceranger:3.1.2"
 	
