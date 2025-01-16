@@ -13,10 +13,10 @@ options(future.globals.maxSize = 1e9)
 # Parse command line arguments
 args <- commandArgs(trailingOnly=TRUE)
 
-bin_size <- args[1]
-n_sketch_cells <- args[2]
-cluster_res <- args[3]
-cluster_npcs <- args[4]
+bin_size <- as.integer(args[1])
+n_sketch_cells <- as.integer(args[2])
+cluster_res <- as.numeric(args[3])
+cluster_npcs <- as.integer(args[4])
 cluster_ndims <- 1:cluster_npcs
 sample_name <- args[5]
 
