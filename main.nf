@@ -81,7 +81,7 @@ process cluster_bins {
 	tag "$meta.sample"
 	label "process_medium"
 	publishDir "${params.results_dir}/clusters/${bin_size}_um_square_bins", mode: 'copy'
- 	container = "annaladdach/seurat_v5_docker:BPCells"
+ 	container = "tjmgibson/seurat_spatial:latest"
  	
  	input:
  	tuple val(meta), path("outs"), path(image), val(bin_size)
