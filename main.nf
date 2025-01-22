@@ -128,7 +128,7 @@ process cluster_bins {
  	script:
  	def bin_sizes_str = bin_sizes.join(',')
  	"""
- 	create_spatialdata.py outs/ ${image} ${meta.sample} $bin_sizes_str
+ 	create_spatialdata_object.py outs/ ${image} ${meta.sample} $bin_sizes_str
  	"""
  	
  	stub:
@@ -193,18 +193,15 @@ workflow {
 	)
 	.clusters
 	| groupTuple
-// 	| view
 	
 	spatialdata_input = spaceranger_ch
 	.join(cluster_ch)
-	| view
 	
 	
 	sdata_ch = create_sdata(
 	spatialdata_input,
 	params.bin_sizes
 	)
-	| view
 
 	
 	
