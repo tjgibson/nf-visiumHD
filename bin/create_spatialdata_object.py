@@ -51,7 +51,7 @@ for i in bin_sizes:
 	clusters = pd.read_csv(clusters_fn)
 	
 	
-	clusters["cluster_full"] = clusters["cluster_full"].astype("category")
+	clusters["clusters_full"] = clusters["clusters_full"].astype("category")
 	clusters.set_index("spot_id", inplace=True)
 	
 	join_data = sdata[f"square_{bin_size}um"].obs.merge(clusters, how="left", left_index=True, right_index=True)
@@ -67,8 +67,8 @@ for i in bin_sizes:
 	)
 	
 # write sdata object to zarr file ========================================================
-    # Write sdata object to file
-    print("writing sdata object to zarr store")
+# Write sdata object to file
+print("writing sdata object to zarr store")
 out_path = f"{sample_name}_sdata.zarr"
 
 out_data = sdata
