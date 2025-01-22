@@ -8,7 +8,7 @@ suppressPackageStartupMessages({
 })
 
 # needs to be set for large dataset analysis
-options(future.globals.maxSize = 1e9)
+options(future.globals.maxSize = 4e9)
 
 # Parse command line arguments
 args <- commandArgs(trailingOnly=TRUE)
