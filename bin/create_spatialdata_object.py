@@ -8,7 +8,7 @@ import anndata as ad
 
 # parse command line arguments ===========================================================
 spaceranger_results_dir = sys.argv[1]
-fullres_image_fn = sys.argv[2]
+fullres_image_path = sys.argv[2]
 sample_name = sys.argv[3]
 bin_sizes = sys.argv[4].strip("[]").replace(" ", "").split(",")
 
@@ -17,7 +17,7 @@ print("importing Visium HD data")
 sdata = visium_hd(
         spaceranger_results_dir,
         dataset_id = sample_name,
-        fullres_image_file = fullres_image_fn,
+        fullres_image_file = fullres_image_path,
         load_all_images = True
         )
     
@@ -52,6 +52,7 @@ for i in bin_sizes:
 	
 	
 	clusters["clusters_full"] = clusters["clusters_full"].astype("category")
+	clusters["spot_id"] = ["s_" + i for i in clusters["spot_id"]]
 	clusters.set_index("spot_id", inplace=True)
 	
 	join_data = sdata[f"square_{bin_size}um"].obs.merge(clusters, how="left", left_index=True, right_index=True)

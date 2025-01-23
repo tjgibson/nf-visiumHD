@@ -116,7 +116,7 @@ process cluster_bins {
 	tag "$meta.sample"
 	label "process_low" 
 	publishDir "${params.results_dir}/spatialdata_objects/", mode: 'copy'
- 	container = "erikfas/spatialvi"
+ 	container = "ghcr.io/scverse/spatialdata:spatialdata0.3.0_spatialdata-io0.1.7_spatialdata-plot0.2.9"
  	
  	input:
  	tuple val(meta), path("outs"), path(image), path("*")
