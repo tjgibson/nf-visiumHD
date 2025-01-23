@@ -52,7 +52,6 @@ for i in bin_sizes:
 	
 	
 	clusters["clusters_full"] = clusters["clusters_full"].astype("category")
-	clusters["spot_id"] = ["s_" + i for i in clusters["spot_id"]]
 	clusters.set_index("spot_id", inplace=True)
 	
 	join_data = sdata[f"square_{bin_size}um"].obs.merge(clusters, how="left", left_index=True, right_index=True)

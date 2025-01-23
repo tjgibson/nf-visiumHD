@@ -99,7 +99,6 @@ clusters <- sdata@meta.data |>
   as.data.frame() |>
   rownames_to_column("spot_id") |> 
   as_tibble() |> 
-  mutate(spot_id = str_replace(spot_id, "s_", "")) |> 
   select(spot_id, clusters_full)
 
 out_fn <-  paste0(sample_name,"_",bin_size,"um_clusters.csv.gz")
