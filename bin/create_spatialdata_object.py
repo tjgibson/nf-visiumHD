@@ -84,7 +84,8 @@ rasterized_clusters = ["rasterized_clusters_{}um".format(bin_size) for bin_size 
 
 keep_layers = images + rasterized_expression + rasterized_clusters
 
-out_data = sdata.subset(keep_layers)
+#out_data = sdata.subset(keep_layers)
+out_data = sdata
 
 print(f"file_name: {out_path}")
 out_data.write(out_path)

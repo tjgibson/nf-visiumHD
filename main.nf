@@ -123,7 +123,7 @@ process cluster_bins {
  	val(bin_sizes)
  	
  	output:
-	tuple val(meta), path("${meta.sample}.zarr")
+	tuple val(meta), path("${meta.sample}_sdata.zarr")
  	
  	script:
  	def bin_sizes_str = bin_sizes.join(',')
