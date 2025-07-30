@@ -26,7 +26,7 @@ log.info """
 process spaceranger_count {
  	tag "$meta.sample"
 	publishDir "${params.results_dir}/spaceranger/${meta.sample}", mode: 'copy'
-	container = "cumulusprod/spaceranger:3.1.2"
+	container = "wailz/spaceranger:4.0.1"
 	
 	input:
 	tuple val(meta), path(fastq), path(cytaimage), path(image), path(alignment_file)
