@@ -132,17 +132,19 @@ process cluster_bins {
  	val(bin_sizes)
  	
  	output:
-	tuple val(meta), path("${meta.sample}_sdata.zarr")
+	tuple val(meta), path("${meta.sample}_sdata.zarr.gz")
  	
  	script:
  	def bin_sizes_str = bin_sizes.join(',')
  	"""
  	create_spatialdata_object.py outs/ ${image} ${meta.sample} $bin_sizes_str
+	gzip '${meta.sample}_sdata.zarr'
  	"""
  	
  	stub:
  	"""
-	touch ${meta.sample}.zarr
+	touch '${meta.sample}_sdata.zarr'
+	gzip '${meta.sample}_sdata.zarr'
  	"""
 }
  
