@@ -38,6 +38,15 @@ process spaceranger_count {
 	
 	script:
 	def alignment_param = alignment_file.baseName != 'NO_FILE' ? "--loupe-alignment=${alignment_file}" : ''
+	
+	if(meta.image_type == "brightfield"){
+		image_params = "--darkimage ${image} --dapi-index ${meta.DAPI_index}"
+	} else if(meta.image_type == "darkimage") { 
+		image_params = "--darkimage ${image} --dapi-index ${meta.DAPI_index}"
+	} else if (meta.image_type == "colorizedImage") {
+		image_params = "--colorizedImage ${image} --dapi-index ${meta.DAPI_index}"
+	}
+
     """
 	spaceranger count \
 		--id=${meta.sample} \
@@ -45,7 +54,7 @@ process spaceranger_count {
         --probe-set=${probeset} \
         --fastqs=. \
         --cytaimage=${cytaimage} \
-        --image ${image} \
+        $image_params \
         --slide=${meta.slide_serial} \
         --area=${meta.slide_area} \
         --create-bam=false \
@@ -162,7 +171,7 @@ workflow {
 	fastq_ch = Channel.fromPath(params.samplesheet, checkIfExists: true)
 	| splitCsv( header:true )
     | map { row ->
-        fastq_meta = row.subMap('sample', 'slide_serial', 'slide_area')
+        fastq_meta = row.subMap('sample', 'slide_serial', 'slide_area', 'image_type', "DAPI_index")
         [
         	fastq_meta, 
         	file(row.fastq, checkIfExists: true),
@@ -206,4 +215,3 @@ workflow {
 	
 	
 }
- 
