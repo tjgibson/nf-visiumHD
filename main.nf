@@ -40,11 +40,11 @@ process spaceranger_count {
 	def alignment_param = alignment_file.baseName != 'NO_FILE' ? "--loupe-alignment=${alignment_file}" : ''
 	
 	if(meta.image_type == "brightfield"){
-		image_params = "--darkimage ${image} --dapi-index ${meta.DAPI_index}"
+		image_params = "--image ${image}"
 	} else if(meta.image_type == "darkimage") { 
 		image_params = "--darkimage ${image} --dapi-index ${meta.DAPI_index}"
 	} else if (meta.image_type == "colorizedimage") {
-		image_params = "--colorizedimage ${image} --dapi-index ${meta.DAPI_index}"
+		image_params = "--colorizedimage ${image}"
 	}
 
     """
