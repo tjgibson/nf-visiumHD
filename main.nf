@@ -43,8 +43,8 @@ process spaceranger_count {
 		image_params = "--darkimage ${image} --dapi-index ${meta.DAPI_index}"
 	} else if(meta.image_type == "darkimage") { 
 		image_params = "--darkimage ${image} --dapi-index ${meta.DAPI_index}"
-	} else if (meta.image_type == "colorizedImage") {
-		image_params = "--colorizedImage ${image} --dapi-index ${meta.DAPI_index}"
+	} else if (meta.image_type == "colorizedimage") {
+		image_params = "--colorizedimage ${image} --dapi-index ${meta.DAPI_index}"
 	}
 
     """
